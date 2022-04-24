@@ -1,5 +1,11 @@
 import pandas as pd
 import os
+import sys
+import dotenv
+
+dotenv.load_dotenv(dotenv.find_dotenv())
+sys.path.insert(0, os.getenv("GC_PATH"))
+
 from db.helpers import create_mysql_connection
 
 ACTUAL_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -24,7 +30,7 @@ def get_csv_paths() -> list:
 def parse_table_name(table_name: str) -> str:
     return table_name[:-4]
 
-def create_tables():
+def create_tables() -> None:
     csv_paths = get_csv_paths()
     for csv_path in csv_paths:
         df = pd.read_csv(csv_path['path'])
